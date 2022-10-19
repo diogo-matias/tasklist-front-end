@@ -1,4 +1,10 @@
-import { Box, TextField, Typography, Button } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -98,7 +104,11 @@ export default function Register() {
           onClick={handleSubmit}
           sx={{ padding: 1, borderRadius: 3, color: "white", marginTop: 2 }}
         >
-          Enviar
+          {user.loading ? (
+            <CircularProgress color="inherit" size={25} />
+          ) : (
+            "Enviar"
+          )}
         </Button>
         <Box
           sx={{

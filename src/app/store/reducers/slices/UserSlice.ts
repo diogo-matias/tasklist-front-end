@@ -76,12 +76,14 @@ interface initialState {
   message: string;
   user_id: string;
   navigate?: string;
+  loading?: boolean;
 }
 
 const initialState: initialState = {
   success: false,
   message: "",
   user_id: "",
+  loading: false,
 };
 
 const userSlice = createSlice({
@@ -107,24 +109,37 @@ const userSlice = createSlice({
       localStorage.setItem("user_id", JSON.stringify(payload.user_id || ""));
       api.setAuthHeader(payload.user_id);
 
-      return { ...payload, navigate: "/tasklist" };
+      return { ...payload, navigate: "/tasklist", loading: false };
     });
     addCase(userLogin.rejected, (state, { error }) => {
       return {
         success: false,
         message: error.message,
+        loading: false,
       };
     });
+
+    addCase(userLogin.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
     addCase(userRegister.rejected, (state, { error }) => {
       return {
         success: false,
         message: error.message,
+        loading: false,
       };
     });
+
+    addCase(userRegister.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+
     addCase(userRegister.fulfilled, (state, { payload }) => {
       return {
         ...payload,
         navigate: "/login",
+        loading: false,
       };
     });
   },

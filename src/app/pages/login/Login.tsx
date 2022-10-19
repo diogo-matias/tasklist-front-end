@@ -1,4 +1,10 @@
-import { Box, TextField, Typography, Button } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -88,7 +94,11 @@ export default function Login() {
           onClick={handleSubmit}
           sx={{ padding: 1, borderRadius: 3, color: "white", marginTop: 2 }}
         >
-          Enviar
+          {user.loading ? (
+            <CircularProgress color="inherit" size={25} />
+          ) : (
+            "Enviar"
+          )}
         </Button>
         <Box
           sx={{
